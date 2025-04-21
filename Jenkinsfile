@@ -23,9 +23,7 @@ pipeline {
 
         stage('e2e') {
             steps {
-                sh '''
-                    sh 'test -f build/index.html'
-                '''
+                sh 'test -f build/index.html'
             }
         }
     }
