@@ -36,7 +36,13 @@ pipeline {
                             npm test
                         '''
                     }
+                    post {
+                        always {
+                            junit 'test-results/junit.xml'
+                        }
+                    }
                 }
+
                 stage('e2e') {
                     agent {
                         docker {
@@ -44,20 +50,16 @@ pipeline {
                             reuseNode true
                         }
                     }
-
                     steps {
                         sh '''
-                            npx playwright test
+                            npm install serve
+                            node_modules/.bin/serve -s build &
+                            slepp 10
+                            npx playwright test --report html
                         '''
                     }
                 }
             }
-        }
-    }
-
-    post {
-        always {
-            junit 'test-results/junit.xml'
         }
     }
 }
