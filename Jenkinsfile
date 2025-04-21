@@ -54,17 +54,21 @@ pipeline {
                         sh '''
                             npm install serve
                             node_modules/.bin/serve -s build &
+                            SERVE_PID=$!
                             sleep 10
                             npx playwright test
+                            kill $SERVE_PID
                         '''
                     }
                     post {
                         always {
-                            step ([
-                                $class: 'HtmlPublisher',
+                            publishHtml([
+                                allowMissing: false,
+                                alwaysLinkToLastBuild: false,
+                                keepAll: false,
                                 reportDir: 'playwright-report',
                                 reportFiles: 'index.html',
-                                reportName: 'E2E Report'
+                                reportName: 'Playwright E2E Report'
                             ])
                         }
                     }
