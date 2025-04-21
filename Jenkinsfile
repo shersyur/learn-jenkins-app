@@ -58,6 +58,16 @@ pipeline {
                             npx playwright test
                         '''
                     }
+                    post {
+                        always {
+                            step ([
+                                $class: 'HtmlPublisher',
+                                reportDir: 'playwright-report',
+                                reportFiles: 'index.html',
+                                reportName: 'E2E Report'
+                            ])
+                        }
+                    }
                 }
             }
         }
