@@ -20,5 +20,13 @@ pipeline {
                 '''
             }
         }
+
+        stage('e2e') {
+            stages {
+                sh '''
+                    sh 'test -f build/index.html'
+                '''
+            }
+        }
     }
 }
