@@ -22,7 +22,7 @@ pipeline {
         }
 
         stage('e2e') {
-            stages {
+            steps {
                 sh '''
                     sh 'test -f build/index.html'
                 '''
